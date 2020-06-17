@@ -1,6 +1,8 @@
-import express from "express";
-import routes from "./app/routes/routes";
-import './database'
+import express from 'express';
+import routes from './app/routes/routes';
+import 'dotenv';
+import './database';
+
 class App {
   server = express();
 
@@ -8,6 +10,7 @@ class App {
     this.middlewares();
     this.routes();
   }
+
   middlewares() {
     this.server.use(express.json());
   }

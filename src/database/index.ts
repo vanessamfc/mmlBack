@@ -1,7 +1,7 @@
-import { Sequelize, Options, Model, ModelCtor } from "sequelize";
+import { Sequelize, Options, Model, ModelCtor } from 'sequelize';
 
-import databaseConfig from "../config/database";
-import User from '../app/models/User'
+import databaseConfig from '../config/database';
+import User from '../app/models/User';
 
 const models = [User];
 
@@ -18,7 +18,7 @@ class Database {
     models
       .map((model) => model.initModel(this.connection))
       .map(
-        //@ts-ignore
+        // @ts-ignore
         (model) => model.associate && model?.associate(this.connection.models)
       );
   }

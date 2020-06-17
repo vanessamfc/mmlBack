@@ -2,13 +2,15 @@ import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcrypt';
 
 class User extends Model {
-
   id!: number;
-  name!: string;
-  email!: string;
-  password_hash!: string;
-  password!: string;
 
+  name!: string;
+
+  email!: string;
+
+  password_hash!: string;
+
+  password!: string;
 
   static initModel(sequelize: Sequelize.Sequelize) {
     this.init(
@@ -29,10 +31,8 @@ class User extends Model {
       }
     });
 
-
     return this;
   }
 }
 
-export default User
-
+export default User;

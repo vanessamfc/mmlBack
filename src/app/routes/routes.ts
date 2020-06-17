@@ -1,6 +1,7 @@
-import { Router } from "express";
-import UserController from '../controllers/UserController'
-import SessionController from '../controllers/SessionController'
+import { Router } from 'express';
+import UserController from '../controllers/UserController';
+import SessionController from '../controllers/SessionController';
+import auth from '../middlewares/auth';
 
 const routes = Router();
 
@@ -9,13 +10,14 @@ interface Users {
   email: string;
 }
 
-const users: Users[] = [];
+routes.post('/session', SessionController.store);
 
+routes.post('/user', UserController.store);
 
-routes.post("/session", SessionController.store)
+routes.use(auth);
 
-routes.post("/user", UserController.store)
-
-
+routes.get('/pvt', (req, res) => {
+  res.json({ msg: 'hello pvt' });
+});
 
 export default routes;

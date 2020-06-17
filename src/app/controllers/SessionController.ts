@@ -1,30 +1,45 @@
 import { Request, Response } from 'express';
-import User from '../models/User'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import * as Yup from 'yup';
+import User from '../models/User';
+import authConfig from '../../config/auth';
 
 class SessionController {
   async store(req: Request, res: Response) {
+    const schema = Yup.object().shape({
+      email: Yup.string().required().email(),
+      password: Yup.string().required().min(5),
+    });
 
-    const { email, password } = req.body
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'validation fails' });
+    }
+
+    const { email, password } = req.body;
 
     const user = await User.findOne({
       where: {
-        email
-      }
-    })
+        email,
+      },
+    });
     if (!user) {
-      return res.status(400).json({ msg: 'error' })
+      return res.status(400).json({ msg: 'error' });
     }
-    const verification = await bcrypt.compare(password.toString(), user.password_hash);
+    const verification = await bcrypt.compare(
+      password.toString(),
+      user.password_hash
+    );
 
     if (!verification) {
-      return res.status(400).json({ msg: "erro" })
+      return res.status(400).json({ msg: 'erro' });
     }
 
-    const token = jwt.sign({ id: user.id }, 'shhhhh', { expiresIn: '7d' });
-    console.log(user?.get())
-    res.json({ token })
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+      expiresIn: authConfig.expiresIn,
+    });
+
+    return res.json({ token });
   }
 }
-export default new SessionController()
+export default new SessionController();
