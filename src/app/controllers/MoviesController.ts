@@ -64,5 +64,31 @@ class MoviesController {
 
     return res.json(changeMovieStatus);
   }
+
+  async delete(req: Request, res: Response) {
+    const schema = Yup.object().shape({
+      status: Yup.mixed().oneOf(['WATCHED', 'PLAN_TO_WATCH']),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'validation fails' });
+    }
+    const { userId } = req;
+    const { movieId } = req.params;
+
+    const findMovieInList = await Movies.findOne({
+      where: { userId, movieId },
+    });
+
+    if (!findMovieInList) {
+      return res.status(400).json({ message: 'user or movie not found' });
+    }
+
+    const deletedMovie = await Movies.destroy({
+      where: { userId, movieId },
+    });
+
+    return res.status(200);
+  }
 }
 export default new MoviesController();

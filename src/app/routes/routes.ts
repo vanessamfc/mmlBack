@@ -23,5 +23,6 @@ routes.get('/pvt', (req, res) => {
 
 routes.post('/movies', MoviesController.store);
 routes.put('/movies/:movieId', MoviesController.update);
+routes.delete('/movies/:movieId', MoviesController.delete);
 
 export default routes;
