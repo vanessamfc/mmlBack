@@ -2,8 +2,9 @@ import { Sequelize, Options, Model, ModelCtor } from 'sequelize';
 
 import databaseConfig from '../config/database';
 import User from '../app/models/User';
+import Movies from '../app/models/Movies';
 
-const models = [User];
+const models = [User, Movies];
 
 class Database {
   public connection: Sequelize = new Sequelize(

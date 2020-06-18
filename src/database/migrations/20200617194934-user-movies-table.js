@@ -12,18 +12,17 @@ module.exports = {
         allowNull: false,
       },
       movie: {
-        type: Sequelize.STRING,
+        type: Sequelize.JSONB,
         allowNull: false,
       },
       status: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.ENUM('WATCHED', 'PLAN_TO_WATCH'),
         allowNull: false,
-        defaultValue: false,
       },
 
       user_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'user', key: 'id' },
+        references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         allowNull: false,
@@ -39,7 +38,7 @@ module.exports = {
     });
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('movies');
   },
 };

@@ -10,7 +10,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const [, token] = authHeader.split(' ');
-  console.log(authConfig.secret);
   try {
     const decoded = jwt.verify(token, authConfig.secret as string) as {
       id: number;
