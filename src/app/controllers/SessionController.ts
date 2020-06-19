@@ -24,7 +24,7 @@ class SessionController {
       },
     });
     if (!user) {
-      return res.status(400).json({ msg: 'error' });
+      return res.status(400).json({ message: 'user not found' });
     }
     const verification = await bcrypt.compare(
       password.toString(),
@@ -32,7 +32,7 @@ class SessionController {
     );
 
     if (!verification) {
-      return res.status(400).json({ msg: 'erro' });
+      return res.status(400).json({ msg: 'error' });
     }
 
     const token = jwt.sign({ id: user.id }, authConfig.secret, {

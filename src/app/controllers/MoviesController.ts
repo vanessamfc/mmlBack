@@ -66,9 +66,7 @@ class MoviesController {
   }
 
   async delete(req: Request, res: Response) {
-    const schema = Yup.object().shape({
-      status: Yup.mixed().oneOf(['WATCHED', 'PLAN_TO_WATCH']),
-    });
+    const schema = Yup.object().shape({});
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'validation fails' });

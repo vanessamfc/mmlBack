@@ -20,5 +20,34 @@ class UserController {
 
     return res.json({ id, name, email });
   }
+
+  async update(req: Request, res: Response) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'validation fails' });
+    }
+    const { id } = req.params;
+
+    const { name } = req.body;
+
+    const findUser = await User.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!findUser) {
+      return res.json({ message: 'user not found' });
+    }
+
+    const [, [updatedUser]] = await User.update(
+      { name },
+      { where: { id }, returning: true }
+    );
+
+    return res.json(updatedUser);
+  }
 }
 export default new UserController();
