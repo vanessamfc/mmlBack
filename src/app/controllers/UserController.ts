@@ -7,16 +7,26 @@ class UserController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().required().email(),
-      password: Yup.string().required().min(5),
+      password: Yup.string().required().min(6),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'validation fails' });
     }
 
-    const newUser = req.body;
+    const { id, name, email } = req.body;
 
-    const { id, name, email } = await User.create(newUser);
+    const emailAlreadyExist = await User.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (emailAlreadyExist) {
+      return res.json({ error: 'email already in use' });
+    }
+
+    await User.create(req.body);
 
     return res.json({ id, name, email });
   }

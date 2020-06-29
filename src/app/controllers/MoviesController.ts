@@ -14,7 +14,6 @@ class MoviesController {
       return res.status(400).json({ error: 'validation fails' });
     }
     const { userId } = req;
-    console.log(userId);
     const { movieId, status } = req.body;
 
     const { data } = await axios.get(
@@ -25,9 +24,11 @@ class MoviesController {
 
     const movie = { Title, Year, Genre, Poster };
 
-    const existentMovie = await Movies.findOne({ where: { movieId, userId } });
+    const findMovieInList = await Movies.findOne({
+      where: { movieId, userId },
+    });
 
-    if (existentMovie) {
+    if (findMovieInList) {
       return res.json({ message: 'movie already added' });
     }
 
