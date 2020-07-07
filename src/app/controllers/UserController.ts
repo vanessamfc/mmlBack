@@ -23,7 +23,7 @@ class UserController {
     });
 
     if (emailAlreadyExist) {
-      return res.json({ error: 'email already in use' });
+      return res.status(400).json({ error: 'email already in use' });
     }
 
     await User.create(req.body);

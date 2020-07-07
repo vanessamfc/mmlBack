@@ -4,6 +4,14 @@ import axios from 'axios';
 import Movies from '../models/Movies';
 
 class MoviesController {
+  async show(req: Request, res: Response) {
+    const { userId } = req;
+
+    const movies = await Movies.findAll({ where: { userId } });
+
+    return res.json(movies);
+  }
+
   async store(req: Request, res: Response) {
     const schema = Yup.object().shape({
       movieId: Yup.string().required(),
@@ -29,7 +37,7 @@ class MoviesController {
     });
 
     if (findMovieInList) {
-      return res.json({ message: 'movie already added' });
+      return res.status(400).json({ message: 'movie already added' });
     }
 
     const addMovie = await Movies.create({

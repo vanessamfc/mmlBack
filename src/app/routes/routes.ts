@@ -25,6 +25,7 @@ routes.put('/user/:id', UserController.update);
 routes.delete('/user/:id', MoviesController.delete);
 
 routes.post('/movies', MoviesController.store);
+routes.get('/movies', MoviesController.show);
 routes.put('/movies/:movieId', MoviesController.update);
 routes.delete('/movies/:movieId', MoviesController.delete);
 
