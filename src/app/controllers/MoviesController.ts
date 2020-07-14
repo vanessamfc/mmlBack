@@ -105,7 +105,7 @@ class MoviesController {
       where: { userId, movieId },
     });
 
-    return res.status(200);
+    return res.status(204).send();
   }
 }
 export default new MoviesController();
