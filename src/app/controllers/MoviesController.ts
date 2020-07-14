@@ -6,8 +6,11 @@ import Movies from '../models/Movies';
 class MoviesController {
   async show(req: Request, res: Response) {
     const { userId } = req;
+    const { status } = req.query;
 
-    const movies = await Movies.findAll({ where: { userId } });
+    const movies = await Movies.findAll({
+      where: { userId, status: (status as string) || 'WATCHED' },
+    });
 
     return res.json(movies);
   }
@@ -98,7 +101,7 @@ class MoviesController {
       return res.status(400).json({ message: 'user or movie not found' });
     }
 
-    const deletedMovie = await Movies.destroy({
+    await Movies.destroy({
       where: { userId, movieId },
     });
 
