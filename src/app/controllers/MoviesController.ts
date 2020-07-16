@@ -4,6 +4,14 @@ import axios from 'axios';
 import Movies from '../models/Movies';
 
 class MoviesController {
+  async index(req: Request, res: Response) {
+    const { userId } = req;
+    const { movieId } = req.params;
+
+    const movie = await Movies.findOne({ where: { userId, movieId } });
+
+    return res.json(movie);
+  }
   async show(req: Request, res: Response) {
     const { userId } = req;
     const { status } = req.query;
