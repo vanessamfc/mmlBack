@@ -10,8 +10,13 @@ class MoviesController {
 
     const movie = await Movies.findOne({ where: { userId, movieId } });
 
+    if (!movie) {
+      return res.status(404).json({ message: 'movie not found' });
+    }
+
     return res.json(movie);
   }
+
   async show(req: Request, res: Response) {
     const { userId } = req;
     const { status } = req.query;
