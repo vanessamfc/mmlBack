@@ -19,7 +19,7 @@ $ git clone https://github.com/vanessamfc/mmlBack.git
 $ cd mmlBack
 ```
 
-### `Connecting to db`
+#### `Connecting to db`
 
 .env.example:
 
