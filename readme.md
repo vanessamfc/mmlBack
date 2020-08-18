@@ -38,12 +38,12 @@ To run this project execute these comands
 
 ```sh
 $ yarn
-$ yarn start
+$ yarn dev
 ```
 
 or
 
 ```sh
 $ npm install
-$ npm start
+$ npm run dev
 ```
